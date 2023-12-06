@@ -1,5 +1,4 @@
 using Xunit;
-using Xunit.Sdk;
 
 public class Day06Test
 {
