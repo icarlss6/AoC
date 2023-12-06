@@ -34,9 +34,19 @@ public class Day06Test
         Assert.Equal(expectedResult, result); 
     }
 
-    [Fact]
-    public void TestRunA_MyInput() { }
+    [Theory]
+    [InlineData("Day06.example.input.txt", 71503)]
+    [InlineData("Day06.input.txt", 39594072)]
+    public void TestRunB_Example(string inputFilename, int expectedResult)
+    {
+        // Arrange
+        var input = File.ReadAllLines(inputFilename);
+        var day06 = new Day06(input);
 
-    [Fact]
-    public void TestRunB_Example() { }
+        // Act
+        var result = day06.RunB();
+
+        // Assert
+        Assert.Equal(expectedResult, result); 
+    }
 }

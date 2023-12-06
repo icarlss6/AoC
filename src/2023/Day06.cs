@@ -1,27 +1,35 @@
 using System.Text.RegularExpressions;
-using TimeDistance = (int time, int distance);
+using TimeDistance = (long time, long distance);
+using TimeDistanceLong = (long time, long distance);
 
 public class Day06(string[] input)
 {
-    private readonly List<TimeDistance> RaceData = [];
+    private readonly List<TimeDistance> _raceDataA = [];
+    private TimeDistanceLong RaceDataB;
 
-    public int RunA()
+    public long RunA()
     {
-        ParseInput(input);
-        // int minSpeed =
-        int result = 1;
+        ParseInputA(input);
+        long result = 1;
 
-        foreach (var race in RaceData)
+        foreach (var race in _raceDataA)
         {
             result *= GetNrOfWaysToBeatRecord(race.time, race.distance);
         }
         return result;
     }
 
-    internal int GetNrOfWaysToBeatRecord(int time, int distance)
+    public long RunB()
     {
-        int nrOfWays = 0;
-        var range = Enumerable.Range(0, time);
+        ParseInputB(input);
+
+        return GetNrOfWaysToBeatRecord(RaceDataB.time, RaceDataB.distance);
+    }
+
+    internal long GetNrOfWaysToBeatRecord(long time, long distance)
+    {
+        long nrOfWays = 0;
+        var range = CreateRange(0, time);
         foreach (var holdTime in range)
         {
             var distanceForRange = GetDistanceTraveled(holdTime, time);
@@ -31,19 +39,44 @@ public class Day06(string[] input)
         return nrOfWays;
     }
 
-    internal void ParseInput(string[] input)
+    private IEnumerable<long> CreateRange(long start, long count)
+    {
+        var limit = start + count;
+
+        while (start < limit)
+        {
+            yield return start;
+            start++;
+        }
+    }
+
+    internal void ParseInputA(string[] input)
     {
         // Use regex to match digits
         MatchCollection matchesTime = Regex.Matches(input[0], @"\d+");
         MatchCollection matchesDistance = Regex.Matches(input[1], @"\d+");
 
-        // Extract and print the digits
+        // Extract the digits
         for (int i = 0; i < matchesTime.Count; i++)
         {
-            RaceData.Add((int.Parse(matchesTime[i].Value), int.Parse(matchesDistance[i].Value)));
+            _raceDataA.Add(
+                (long.Parse(matchesTime[i].Value), long.Parse(matchesDistance[i].Value))
+            );
         }
     }
 
-    internal int GetDistanceTraveled(int holdTime, int totalTime) =>
+    internal void ParseInputB(string[] input)
+    {
+        string timeString = string.Concat(
+            input[0].Split(new char[] { ' ', ':' }, StringSplitOptions.RemoveEmptyEntries).Skip(1)
+        );
+        string distanceString = string.Concat(
+            input[1].Split(new char[] { ' ', ':' }, StringSplitOptions.RemoveEmptyEntries).Skip(1)
+        );
+
+        RaceDataB = (long.Parse(timeString), long.Parse(distanceString));
+    }
+
+    internal long GetDistanceTraveled(long holdTime, long totalTime) =>
         (totalTime - holdTime) * holdTime;
 }
