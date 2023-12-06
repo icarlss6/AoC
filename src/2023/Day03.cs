@@ -13,24 +13,18 @@ public class Day03
         board = InputTo2dArray(input);
     }
 
-    internal int RunA()
+    public int RunA()
     {
         int totalSum = 0;
-        // int currentNr = 0;
         string currentNr = "";
         bool hasAdjacent = false;
-        // Check 8 positions
+
         for (int i = 0; i < rowNr; i++)
         {
             for (int j = 0; j < colNr; j++)
             {
-                // om "context shift eller inte" - villkor för? antingen radbyte eller punkt?
-                // antingen addera föregående contexts siffra om hade adjacencies
-                // och skapa nytt context om det är siffra
-                // eller lägg till siffran till strängen, parse:a samt kolla adjacencies
-                //
-                // Behöver kolla fallet ny rad + isdigit
-                if (j == 0 || !char.IsDigit(board[i, j])) // new context
+                // new "context" to check caused by row change or not a digit
+                if (j == 0 || !char.IsDigit(board[i, j]))
                 {
                     if (hasAdjacent && !string.IsNullOrEmpty(currentNr))
                     {
@@ -40,8 +34,7 @@ public class Day03
                     currentNr = "";
                 }
 
-                // gäller oavsett context switch eller inte?
-                // inte else if eftersom kan vara att i == 0
+                // Add digit to current one
                 if (char.IsDigit(board[i, j]))
                 {
                     currentNr = currentNr + board[i, j].ToString();
@@ -56,24 +49,50 @@ public class Day03
         return totalSum;
     }
 
-    // int AddFromThisPosition(int x, int y)
-    // {
-    //     if (board[x, y] == '.')
-    //         if (board[x, y] == '.')
-    //             return 0;
-    // }
+    // A gear is any * symbol that is adjacent to exactly two part numbers.
+    // Store candidate list 
+    // - * board position
+    // - first number
+    // - second number
+    // delete if one more found?
+    public int RunB()
+    {
+        int totalSum = 0;
+        string currentNr = "";
+        bool hasAdjacent = false;
+
+        for (int i = 0; i < rowNr; i++)
+        {
+            for (int j = 0; j < colNr; j++)
+            {
+                // new "context" to check caused by row change or not a digit
+                if (j == 0 || !char.IsDigit(board[i, j]))
+                {
+                    if (hasAdjacent && !string.IsNullOrEmpty(currentNr))
+                    {
+                        totalSum += int.Parse(currentNr);
+                    }
+                    hasAdjacent = false;
+                    currentNr = "";
+                }
+
+                // Add digit to current one
+                if (char.IsDigit(board[i, j]))
+                {
+                    currentNr = currentNr + board[i, j].ToString();
+                    if (!hasAdjacent)
+                    {
+                        hasAdjacent = CheckPositionsAround(i, j);
+                    }
+                }
+            }
+        }
+
+        return totalSum;
+    }
 
     bool CheckPositionsAround(int x, int y)
     {
-        var aa = CheckPosition(x, y + 1);
-        var a = CheckPosition(x + 1, y + 1);
-        var b = CheckPosition(x + 1, y);
-        var c = CheckPosition(x + 1, y - 1);
-        var d = CheckPosition(x, y - 1);
-        var e = CheckPosition(x - 1, y - 1);
-        var f = CheckPosition(x - 1, y);
-        var g = CheckPosition(x - 1, y + 1);
-
         return CheckPosition(x, y + 1)
             || CheckPosition(x + 1, y + 1)
             || CheckPosition(x + 1, y)

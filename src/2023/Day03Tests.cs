@@ -43,7 +43,7 @@ public class Day03Tests
         var result = day03.RunA();
 
         // Assert
-        Assert.Equal(55208, result); // The sum of all digits in the input is 45
+        Assert.Equal(538046, result); // The sum of all digits in the input is 45
     }
 
     [Fact]
@@ -77,5 +77,20 @@ public class Day03Tests
         Assert.False(day03.IsValidPosition(2, 2));
         Assert.False(day03.IsValidPosition(-1, 0));
         Assert.False(day03.IsValidPosition(0, -1));
+    }
+
+    [Fact]
+    public void TestRunB_Example()
+    {
+        // Arrange
+        string inputFile = "Day03.example.input.txt";
+        var input = File.ReadAllLines(inputFile);
+        var day03 = new Day03(input);
+
+        // Act
+        var result = day03.RunB();
+
+        // Assert
+        Assert.Equal(4361, result); // The sum of all digits in the input is 45
     }
 }
