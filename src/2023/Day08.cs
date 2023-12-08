@@ -28,15 +28,15 @@ public class Day08
         return iterations;
     }
 
-    public int RunB()
+    public long RunB()
     {
         var currentNodes = _network.Keys.Where(k => k.EndsWith('A')).ToList();
         int stepIndex = 0;
         int iterations = 0;
-        var nodesRepeatInterval = new (int first, int second)[currentNodes.Count];
+        var nodesRepeatInterval = new int[currentNodes.Count];
 
         // repeat until all nodes end with Z
-        while (nodesRepeatInterval.Any(t => t.second == -1 || t.second == 0))
+        while (nodesRepeatInterval.Any(t => t == 0))
         {
             if (currentNodes.Any(n => n.EndsWith('Z')))
             {
@@ -49,13 +49,8 @@ public class Day08
                 foreach (var index in indices)
                 {
                     // if the node has not been visited before, store the iteration count
-                    if (nodesRepeatInterval[index].first == 0)
-                        nodesRepeatInterval[index] = (iterations, -1);
-                    // if the node has been visited before, store the interval between the first and second visit
-                    else if (nodesRepeatInterval[index].second == -1)
-                    {
-                        nodesRepeatInterval[index] = (nodesRepeatInterval[index].first, iterations);
-                    }
+                    if (nodesRepeatInterval[index] == 0)
+                        nodesRepeatInterval[index] = iterations;
                 }
             }
 
@@ -66,18 +61,22 @@ public class Day08
             iterations++;
         }
 
-        // find the lowest common multiple of all intervals
-        var interval = nodesRepeatInterval.Aggregate((a, b) => (LCM(a.first, a.second), LCM(b.first, b.second)));
+        long lcm = nodesRepeatInterval[0];
 
-        return iterations;
+        for (int i = 1; i < nodesRepeatInterval.Length; i++)
+        {
+            lcm = LCM(lcm, nodesRepeatInterval[i]);
+        }
+
+        return lcm;
     }
 
-    public static int LCM(int a, int b)
+    public static long LCM(long a, long b)
     {
         return a * b / GCD(a, b);
     }
 
-    public static int GCD(int a, int b)
+    public static long GCD(long a, long b)
     {
         while (b != 0)
         {
