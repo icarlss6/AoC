@@ -3,7 +3,7 @@ using Xunit;
 public class Day09Test
 {
     [Theory]
-    [InlineData("Day09.example.input.txt", 1)]
+    [InlineData("Day09.example.input.txt", 114)]
     [InlineData("Day09.input.txt", 1)]
     public void Test_RunA(string inputFilename, int expectedResult)
     {
@@ -12,10 +12,10 @@ public class Day09Test
         var day09 = new Day09(input);
 
         // Act
-        // var result = day09.RunA();
+        var result = day09.RunA();
 
         // Assert
-        // Assert.Equal(expectedResult, result); 
+        Assert.Equal(expectedResult, result); 
     }
 
     [Theory]
