@@ -8,18 +8,22 @@ public class Day11(string[] input)
         var galaxyCoordinates = FindHashCoordinates(grid);
         var combinationsToCheck = GetCombinations(galaxyCoordinates);
 
-        var shortestPaths = combinationsToCheck.Select(c => GetShortestPathBetweenPoints(c.Item1, c.Item2));
+        var shortestPaths = combinationsToCheck.Select(
+            c => GetShortestPathBetweenPoints(c.Item1, c.Item2)
+        );
 
         return shortestPaths.Sum();
     }
 
-    internal static List<(T, T)> GetCombinations<T>(List<T> list) =>
-        list.SelectMany(
+    internal static List<(T, T)> GetCombinations<T>(List<T> list)
+    {
+        return list.SelectMany(
                 (value1, index1) =>
                     list.Where((value2, index2) => index2 > index1)
                         .Select(value2 => (value1, value2))
             )
             .ToList();
+    }
 
     internal static int GetShortestPathBetweenPoints((int, int) point1, (int, int) point2)
     {
