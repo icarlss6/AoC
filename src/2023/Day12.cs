@@ -24,24 +24,21 @@ public class Day12(string[] input)
 
     private int GetValidCombinations(List<string> combinations, List<int> records)
     {
-        var test = combinations.Select(
-            c => c.Split('.', StringSplitOptions.RemoveEmptyEntries).Select(d => d.Trim('.'))
-        );
-        var matching = test.Where(x => x.Count() == records.Count);
-        var matching2 = matching.Where(x => x.Select(y => y.Length).SequenceEqual(records));
-
-        var combinationsCount = matching2.Count();
-
-        return combinationsCount;
+        return combinations
+            .Select(
+                c => c.Split('.', StringSplitOptions.RemoveEmptyEntries).Select(d => d.Trim('.'))
+            )
+            .Where(
+                x => x.Count() == records.Count && x.Select(y => y.Length).SequenceEqual(records)
+            )
+            .Count();
     }
 
     public void GenerateCombinations()
     {
-        List<string> results = new List<string>();
-        foreach (var record in _conditionRecordsLeft)
-        {
-            _combinations.Add(GenerateCombinationsHelper(new string(record)));
-        }
+        _conditionRecordsLeft.ForEach(
+            record => _combinations.Add(GenerateCombinationsHelper(record))
+        );
     }
 
     private static List<string> GenerateCombinationsHelper(string input)
