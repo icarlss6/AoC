@@ -59,19 +59,6 @@ public class Day12(string[] input)
         return resultWithHash;
     }
 
-    // private static void GenerateCombinationsHelper(string input, List<string> results)
-    // {
-    //     int index = input.IndexOf('?');
-    //     if (index == -1)
-    //     {
-    //         results.Add(input);
-    //         return;
-    //     }
-
-    //     GenerateCombinationsHelper(input.Remove(index, 1).Insert(index, "#"), results);
-    //     GenerateCombinationsHelper(input.Remove(index, 1).Insert(index, "."), results);
-    // }
-
     internal void ParseInput(string[] input)
     {
         foreach (var line in input)
