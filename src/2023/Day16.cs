@@ -85,7 +85,7 @@ public class Day16
             (Direction.Left, '|') => Direction.Down,
             (Direction.Left, '-') => Direction.None,
 
-            (_, _) => throw new IndexOutOfRangeException()
+            (_, _) => throw new ArgumentException()
         };
 
     public int RunB()
@@ -153,7 +153,7 @@ internal class BeamState
             (Direction.Left, '|') => Direction.Up,
             (Direction.Left, '-') => Direction.Left,
 
-            (_, _) => throw new IndexOutOfRangeException()
+            (_, _) => throw new ArgumentOutOfRangeException()
         };
 }
 
