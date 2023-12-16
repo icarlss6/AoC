@@ -14,7 +14,7 @@ $cookie = New-Object System.Net.Cookie
 
 # Set the properties of the Cookie
 $cookie.Name = "session"
-$cookie.Value = "53616c7465645f5f84f5aebd13a0f0fcf0106597a327b4e5749fc69c3f8f9cb567b90e8865383c497572c0bb613153e8de61fddefcba1d7e6b2e1710c86c30f6"
+$cookie.Value = ""
 $cookie.Domain = "adventofcode.com"
 
 # Add the Cookie to the Web Session
